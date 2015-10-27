@@ -857,9 +857,9 @@ class ASOServerJob(object):
                 doc['end_time'] = now
                 if reason:
                     if doc['failure_reason']:
-                        if type(doc['failure_reason']) == list:
+                        if isinstance(doc['failure_reason'], list):
                             doc['failure_reason'].append(reason)
-                        elif type(doc['failure_reason']) == str:
+                        elif isinstance(doc['failure_reason'], str):
                             doc['failure_reason'] = [doc['failure_reason'], reason]
                     else:
                         doc['failure_reason'] = reason
@@ -1667,9 +1667,9 @@ class PostJob():
         num_failures = len(failures)
         num_permanent_failures = 0
         for doc_id in failures.keys():
-            if type(failures[doc_id]['reasons']) == str:
+            if isinstance(failures[doc_id]['reasons'], str):
                 failures[doc_id]['reasons'] = [failures[doc_id]['reasons']]
-            if type(failures[doc_id]['reasons']) == list:
+            if isinstance(failures[doc_id]['reasons'], list):
                 last_failure_reason = failures[doc_id]['reasons'][-1]
                 permanent, _ = isFailurePermanent(last_failure_reason)
                 if permanent:
