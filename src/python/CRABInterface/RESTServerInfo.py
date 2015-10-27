@@ -4,7 +4,7 @@ from WMCore.REST.Validation import validate_str
 from WMCore.REST.Error import ExecutionError
 # CRABServer dependecies here
 from CRABInterface.RESTExtensions import authz_login_valid
-from CRABInterface.Regexps import RX_SUBRES_SI , RX_WORKFLOW
+from CRABInterface.Regexps import RX_SUBRES_SI, RX_WORKFLOW
 from CRABInterface.Utils import conn_handler
 from CRABInterface.__init__ import __version__
 import logging
@@ -26,7 +26,7 @@ class RESTServerInfo(RESTEntity):
         authz_login_valid()
         if method in ['GET']:
             validate_str('subresource', param, safe, RX_SUBRES_SI, optional=True)
-            validate_str('workflow', param, safe, RX_WORKFLOW , optional=True)
+            validate_str('workflow', param, safe, RX_WORKFLOW, optional=True)
 
     @restcall
     def get(self, subresource , **kwargs):

@@ -183,7 +183,7 @@ class Task(dict):
         self['tm_start_time'] = str(task[3])
         self['tm_start_injection'] = str(task[4])
         self['tm_end_injection'] = str(task[5])
-        self['tm_task_failure'] = task[6] if ( task[6] is None or isinstance(task[6], str) ) else task[6].read() 
+        self['tm_task_failure'] = task[6] if (task[6] is None or isinstance(task[6], str)) else task[6].read()
         self['tm_job_sw'] = task[7]
         self['tm_job_arch'] = task[8]
         self['tm_input_dataset'] = task[9]
@@ -208,7 +208,7 @@ class Task(dict):
         self['tm_tfile_outfiles'] = literal_eval(task[28] if ( task[28] is None or isinstance(task[28], str) ) else task[28].read())
         self['tm_edm_outfiles'] = literal_eval(task[29] if ( task[29] is None or isinstance(task[29], str) ) else task[29].read())
         self['tm_job_type'] = task[30]
-        extraargs = literal_eval(task[31] if ( task[31] is None or isinstance(task[31],str) ) else task[31].read())
+        extraargs = literal_eval(task[31] if (task[31] is None or isinstance(task[31], str)) else task[31].read())
         self['resubmit_jobids'] = extraargs['resubmit_jobids'] if 'resubmit_jobids' in extraargs else None
         if self['resubmit_jobids'] is None and 'resubmitList' in extraargs: ## For backward compatibility only.
             self['resubmit_jobids'] = extraargs['resubmitList']
@@ -224,18 +224,18 @@ class Task(dict):
         self['resubmit_maxjobruntime'] = extraargs['maxjobruntime'] if 'maxjobruntime' in extraargs else None
         self['kill_ids'] = extraargs['killList'] if 'killList' in extraargs else []
         self['kill_all'] = extraargs['killAll'] if 'killAll' in extraargs else False
-        self['panda_resubmitted_jobs'] = literal_eval(task[32] if ( task[32] is None or isinstance(task[32],str)) else task[32].read())
+        self['panda_resubmitted_jobs'] = literal_eval(task[32] if (task[32] is None or isinstance(task[32], str)) else task[32].read())
         self['tm_save_logs'] = task[33]
         self['tm_user_infiles'] = literal_eval(task[34])
         self['worker_name'] = task[35]
-        self['tm_arguments'] = literal_eval(task[31] if ( task[31] is None or isinstance(task[31],str) ) else task[31].read())
+        self['tm_arguments'] = literal_eval(task[31] if (task[31] is None or isinstance(task[31], str)) else task[31].read())
         self['tm_maxjobruntime'] = task[36]
         self['tm_numcores'] = task[37]
         self['tm_maxmemory'] = task[38]
         self['tm_priority'] = task[39]
         self['tm_activity'] = task[40]
         self['tm_scriptexe'] = task[41]
-        self['tm_scriptargs'] = literal_eval(task[42] if ( task[42] is None or isinstance(task[42],str) ) else task[42].read())
+        self['tm_scriptargs'] = literal_eval(task[42] if (task[42] is None or isinstance(task[42], str)) else task[42].read())
         self['tm_extrajdl'] = task[43]
         self['tm_generator'] = task[44]
         self['tm_asourl'] = task[45]
@@ -244,7 +244,7 @@ class Task(dict):
         self['tm_collector'] = task[48]
         self['tm_schedd'] = task[49]
         self['tm_dry_run'] = task[50]
-        self['tm_user_files'] = literal_eval(task[51] if ( task[51] is None or isinstance(task[51],str) ) else task[51].read())
+        self['tm_user_files'] = literal_eval(task[51] if (task[51] is None or isinstance(task[51], str)) else task[51].read())
         self['tm_transfer_outputs'] = task[52]
         self['tm_output_lfn'] = task[53]
         self['tm_ignore_locality'] = task[54]
