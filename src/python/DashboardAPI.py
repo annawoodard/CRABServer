@@ -3,6 +3,7 @@
 """
 This is the Dashboard API Module for the Worker Node
 """
+from __future__ import print_function
 
 import apmon
 import time, sys, os
@@ -61,7 +62,7 @@ def getApmonInstance():
                 apmonInstance = apmon.ApMon(apmonConf, apmonLoggingLevel)
             except Exception as e :
                 pass
-    return apmonInstance 
+    return apmonInstance
 
 #
 # Method to free the apmon instance
@@ -114,7 +115,7 @@ def logger(msg) :
 #
 
 # Format envvar, context var name, context var default value
-contextConf = {'MonitorID'    : ('MonitorID', 'unknown'), 
+contextConf = {'MonitorID'    : ('MonitorID', 'unknown'),
                'MonitorJobID' : ('MonitorJobID', 'unknown') }
 
 #
@@ -128,8 +129,8 @@ def getContext(overload={}) :
         paramValue = None
         if paramName in overload :
             paramValue = overload[paramName]
-        if paramValue is None :    
-            envVar = contextConf[paramName][0] 
+        if paramValue is None :
+            envVar = contextConf[paramName][0]
             paramValue = os.getenv(envVar)
         if paramValue is None :
             defaultValue = contextConf[paramName][1]
@@ -154,7 +155,7 @@ def readArgs(lines) :
             paramName = line
         if paramName != '' :
             argValues[paramName] = paramValue
-    return argValues    
+    return argValues
 
 def filterArgs(argValues) :
 
@@ -167,10 +168,10 @@ def filterArgs(argValues) :
             if paramName in contextConf.keys() :
                 contextValues[paramName] = paramValue
             else :
-                paramValues[paramName] = paramValue 
+                paramValues[paramName] = paramValue
         else :
-            logger('Bad value for parameter :' + paramName) 
-            
+            logger('Bad value for parameter :' + paramName)
+
     return contextValues, paramValues
 
 #
@@ -187,7 +188,7 @@ def report(args) :
     logger('params: ' + repr(paramArgs))
     apmonSend(taskId, jobId, paramArgs)
     apmonFree()
-    print "Parameters sent to Dashboard."
+    print("Parameters sent to Dashboard.")
 
 #
 # PYTHON BASED JOB WRAPPER
@@ -250,20 +251,20 @@ def reportFailureToDashboard(exitCode, ad = None):
         try:
             ad = parseAd()
         except:
-            print "==== ERROR: Unable to parse job's HTCondor ClassAd ===="
-            print "Will not report failure to Dashboard"
-            print traceback.format_exc()
+            print("==== ERROR: Unable to parse job's HTCondor ClassAd ====")
+            print("Will not report failure to Dashboard")
+            print(traceback.format_exc())
             return
     for attr in ['CRAB_ReqName', 'CRAB_Id', 'CRAB_Retry']:
         if attr not in ad:
-            print "==== ERROR: HTCondor ClassAd is missing attribute %s. ====" % attr
-            print "Will not report failure to Dashboard"
+            print("==== ERROR: HTCondor ClassAd is missing attribute %s. ====" % attr)
+            print("Will not report failure to Dashboard")
     params = {
         'MonitorID': ad['CRAB_ReqName'],
         'MonitorJobID': '%d_https://glidein.cern.ch/%d/%s_%d' % (ad['CRAB_Id'], ad['CRAB_Id'], ad['CRAB_ReqName'].replace("_", ":"), ad['CRAB_Retry']),
         'JobExitCode': exitCode
     }
-    print "Dashboard stageout failure parameters: %s" % str(params)
+    print("Dashboard stageout failure parameters: %s" % str(params))
     apmonSend(params['MonitorID'], params['MonitorJobID'], params)
     apmonFree()
     return exitCode

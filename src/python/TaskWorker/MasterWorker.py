@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #external dependencies
+from __future__ import print_function
 import os
 import time
 import urllib
@@ -8,10 +9,9 @@ import random
 import logging
 import traceback
 from httplib import HTTPException
-from logging.handlers import TimedRotatingFileHandler
 
 #WMcore dependencies
-from WMCore.Configuration import loadConfigurationFile, Configuration
+from WMCore.Configuration import loadConfigurationFile
 
 #CAFUtilities dependencies
 from RESTInteractions import HTTPRequests
@@ -75,8 +75,8 @@ class MasterWorker(object):
                 os.mkdir(dirname)
             except OSError as ose:
                 if ose.errno != 17: #ignore the "Directory already exists error"
-                    print str(ose)
-                    print "The task worker need to access the '%s' directory" % dirname
+                    print(str(ose))
+                    print("The task worker need to access the '%s' directory" % dirname)
                     sys.exit(1)
 
 

@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from WMCore.DataStructs.File import File
 from WMCore.DataStructs.Fileset import Fileset
 from WMCore.DataStructs.Run import Run
@@ -73,9 +75,9 @@ class DataDiscovery(TaskAction):
                         pnn_psn_map[pnn] = ''
                     except httplib.HTTPException as ex:
                         self.logger.error("Couldn't map SE to site: %s" % pnn)
-                        print "Couldn't map SE to site: %s" % pnn
-                        print "got problem: %s" % ex
-                        print "got another problem: %s" % ex.__dict__
+                        print("Couldn't map SE to site: %s" % pnn)
+                        print("got problem: %s" % ex)
+                        print("got another problem: %s" % ex.__dict__)
                 if pnn and pnn in pnn_psn_map:
                     if isinstance(pnn_psn_map[pnn], list):
                         wmfile['locations'].extend(pnn_psn_map[pnn])

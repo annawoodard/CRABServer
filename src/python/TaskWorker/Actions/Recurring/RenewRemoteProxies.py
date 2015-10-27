@@ -1,10 +1,8 @@
+from __future__ import print_function
 import os
 import sys
 import time
-import json
-import urllib
 import logging
-import traceback
 
 import classad
 import htcondor
@@ -66,13 +64,13 @@ class CRAB3ProxyRenewer(object):
             group = ad['CRAB_UserGroup']
         if 'CRAB_UserRole' in ad and ad['CRAB_UserRole'] and ad['CRAB_UserRole'] != classad.Value.Undefined:
             role = ad['CRAB_UserRole']
-        print vo, group, role
+        print(vo, group, role)
         proxycfg = {'vo': vo,
                     'logger': self.logger,
                     'myProxySvr': self.config.Services.MyProxy,
                     'myproxyAccount': self.config.TaskWorker.resturl,
                     'proxyValidity' : '144:0',
-                    'min_time_left' : MINPROXYLENGTH, ## do we need this ? or should we use self.myproxylen? 
+                    'min_time_left' : MINPROXYLENGTH, ## do we need this ? or should we use self.myproxylen?
                     'userDN' : ad['CRAB_UserDN'],
                     'group' : group,
                     'role' : role,

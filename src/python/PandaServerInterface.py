@@ -1,19 +1,15 @@
+from __future__ import print_function
 import os
 import re
 import sys
-import time
 import stat
-import types
-import random
 import urllib
 import struct
 import commands
 import cPickle as pickle
 import xml.dom.minidom
-import socket
 import tempfile
 import logging
-from hashlib import sha1
 
 LOGGER = logging.getLogger(__name__)
 
@@ -471,7 +467,7 @@ def killJobs(baseURLSSL, ids, proxy, code=None, verbose=True, useMailAsID=False)
     except:
         type, value, traceBack = sys.exc_info()
         errStr = "ERROR killJobs : %s %s" % (type, value)
-        print errStr
+        print(errStr)
         return EC_Failed, output+'\n'+errStr
 
 # get full job status

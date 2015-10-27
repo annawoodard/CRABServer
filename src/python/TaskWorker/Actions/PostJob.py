@@ -53,9 +53,8 @@ about the file to the FJR. The information is:
 
 The PostJob and cmscp are the only places in CRAB3 where we should use camel_case instead of snakeCase.
 """
-
+from __future__ import print_function
 import os
-import re
 import sys
 import time
 import json
@@ -64,7 +63,6 @@ import glob
 import fcntl
 import errno
 import pprint
-import random
 import shutil
 import signal
 import urllib
@@ -85,7 +83,7 @@ from TaskWorker import __version__
 from RESTInteractions import HTTPRequests ## Why not to use from WMCore.Services.Requests import Requests
 from TaskWorker.Actions.RetryJob import RetryJob
 from TaskWorker.Actions.RetryJob import JOB_RETURN_CODES
-from ServerUtilities import setDashboardLogs, isFailurePermanent, parseJobAd
+from ServerUtilities import isFailurePermanent, parseJobAd
 
 ASO_JOB = None
 config = None
@@ -303,7 +301,7 @@ class ASOServerJob(object):
     ##= = = = = ASOServerJob = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
     def load_docs_in_transfer(self):
-        """ Function that loads the object saved as a json by save_docs_in_transfer 
+        """ Function that loads the object saved as a json by save_docs_in_transfer
         """
         try:
             filename = 'transfer_info/docs_in_transfer.%d.%d.json' % (self.job_id, self.crab_retry)
@@ -313,7 +311,7 @@ class ASOServerJob(object):
             #Only printing a generic message, the full stacktrace is printed in execute()
             self.logger.error("Failed to load the docs in transfer. Aborting the postjob")
             raise
-        
+
     ##= = = = = ASOServerJob = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
     def check_transfers(self):
@@ -965,7 +963,7 @@ class PostJob():
         self.postjob_log_file_name = None
 
     ## = = = = = PostJob = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-        
+
     def get_defer_num(self):
 
         DEFER_INFO_FILE = 'defer_info/defer_num.%d.%d.txt' % (self.job_id, self.dag_retry)
@@ -1018,9 +1016,9 @@ class PostJob():
         ## Create a file handler (or a stream handler to stdout), flush the memory
         ## handler content to the file (or stdout) and remove the memory handler.
         if os.environ.get('TEST_DONT_REDIRECT_STDOUT', False):
-            handler = logging.StreamHandler(sys.stdout)    
+            handler = logging.StreamHandler(sys.stdout)
         else:
-            print "Wrinting post-job output to %s." % (self.postjob_log_file_name)
+            print("Wrinting post-job output to %s." % (self.postjob_log_file_name))
             mode = 'w' if first_pj_execution() else 'a'
             handler = logging.FileHandler(filename=self.postjob_log_file_name, mode=mode)
         handler.setFormatter(self.logging_formatter)
@@ -1107,7 +1105,7 @@ class PostJob():
                 self.logger.info("Continuing since this is not a critical error.")
 
     ## = = = = = PostJob = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-    
+
     def execute(self, *args, **kw):
         """
         The execute method of PostJob.
@@ -1168,7 +1166,7 @@ class PostJob():
             self.logger.error(msg)
             if self.crab_retry is not None:
                 self.set_dashboard_state('FAILED')
-            retval = JOB_RETURN_CODES.FATAL_ERROR 
+            retval = JOB_RETURN_CODES.FATAL_ERROR
             self.log_finish_msg(retval)
             return retval
 
@@ -1283,9 +1281,9 @@ class PostJob():
             If the retry-job returns non 0 (meaning there was an error), report the state
             to dashboard and exit the post-job.
         """
-        
+
         res = 0, ""
-        
+
         self.logger.info("====== Starting to analyze job exit status.")
         retry = RetryJob()
         if not os.environ.get('TEST_POSTJOB_DISABLE_RETRIES', False):
@@ -1353,7 +1351,7 @@ class PostJob():
             self.logger.error(retmsg)
             return 10, retmsg
 
-        ## If this is a deferred post-job execution, reduce the log level to WARNING. 
+        ## If this is a deferred post-job execution, reduce the log level to WARNING.
         if not first_pj_execution():
             self.logger.setLevel(logging.WARNING)
         ## Parse the job ad and use it if possible.
@@ -2401,7 +2399,7 @@ class testServer(unittest.TestCase):
             os.write(fh, (inputString * ((size/len(inputString))+1))[:size])
             os.close(fh)
             cmd = "env -u LD_LIBRAY_PATH lcg-cp -b -D srmv2 -v file://%s %s" % (path, pfn)
-            print cmd
+            print(cmd)
             status, res = commands.getstatusoutput(cmd)
             if status:
                 exmsg = "Couldn't make file: %s" % (res)
@@ -2446,9 +2444,9 @@ class testServer(unittest.TestCase):
 if __name__ == '__main__':
     if len(sys.argv) >= 2 and sys.argv[1] == 'UNIT_TEST':
         sys.argv = [sys.argv[0]]
-        print "Beginning testing"
+        print("Beginning testing")
         unittest.main()
-        print "Testing over"
+        print("Testing over")
         sys.exit()
     POSTJOB = PostJob()
     sys.exit(POSTJOB.execute(*sys.argv[2:]))

@@ -5,11 +5,11 @@
  *
  * Copyright (C) 2006 California Institute of Technology
  *
- * Permission is hereby granted, free of charge, to use, copy and modify 
+ * Permission is hereby granted, free of charge, to use, copy and modify
  * this software and its documentation (the "Software") for any
- * purpose, provided that existing copyright notices are retained in 
+ * purpose, provided that existing copyright notices are retained in
  * all copies and that this notice is included verbatim in any distributions
- * or substantial portions of the Software. 
+ * or substantial portions of the Software.
  * This software is a part of the MonALISA framework (http://monalisa.cacr.caltech.edu).
  * Users of the Software are asked to feed back problems, benefits,
  * and/or suggestions about the software to the MonALISA Development Team
@@ -30,7 +30,7 @@
  * OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR
  * MODIFICATIONS.
 """
-
+from __future__ import print_function
 import time
 import threading
 
@@ -49,13 +49,13 @@ class Logger:
 	def __init__ (this, defaultLevel = INFO):
 		this.log_lock = threading.Lock();
 		this.logLevel = defaultLevel
-	
+
 	# Print the given message if the level is more serious as the existing one
 	def log(this, level, message):
 		global LEVELS, FATAL, ERROR, WARNING, INFO, NOTICE, DEBUG
 		this.log_lock.acquire();
 		if(level <= this.logLevel):
-			print time.asctime() + ": ApMon["+LEVELS[level]+"]: "+message;
+			print(time.asctime() + ": ApMon["+LEVELS[level]+"]: "+message);
 		this.log_lock.release();
 
 	# Set the logging level
